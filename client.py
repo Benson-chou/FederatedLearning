@@ -30,14 +30,14 @@ x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 
 # Normalize (all values originally fall under 0-255 range)
 x_train = x_train / 255.0
 x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1)
-x_test=x_test/255.0
+x_test = x_test / 255.0
 
 # Label encoding into one-hot encodings
-# y_train = tf.one_hot(y_train.astype(np.int32), depth=10)
-# y_test = tf.one_hot(y_test.astype(np.int32), depth=10)
+y_train = tf.one_hot(y_train.astype(np.int32), depth=10)
+y_test = tf.one_hot(y_test.astype(np.int32), depth=10)
 
 # Define Flower client
-class MnistClient(fl.client.Client):
+class MnistClient(fl.client.NumPyClient):
   def get_parameters(self, config):
     return model.get_weights()
 
@@ -52,4 +52,4 @@ class MnistClient(fl.client.Client):
     return loss, len(x_test), {"accuracy": accuracy}
 
 # Start Flower client
-fl.client.start_client(server_address="localhost:8080", client=MnistClient())
+fl.client.start_numpy_client(server_address="localhost:8080", client=MnistClient())
