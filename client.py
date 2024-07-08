@@ -43,7 +43,7 @@ class MnistClient(fl.client.NumPyClient):
 
   def fit(self, parameters, config):
     model.set_weights(parameters)
-    model.fit(x_train, y_train, epochs=1, batch_size=32)
+    model.fit(x_train, y_train, epochs=5, batch_size=64)
     return model.get_weights(), len(x_train), {}
 
   def evaluate(self, parameters, config):
